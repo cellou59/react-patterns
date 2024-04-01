@@ -3,52 +3,33 @@
 
 import * as React from 'react'
 
-// 🐶 Modifie 'NameInput' et 'FirstNameInput' pour que leurs states soient gérer par le composant parent App.
-
-// 🐶 Créé deux props : onNameChange et name
-// 🤖 function NameInput({onNameChange,name}) {
-function NameInput() {
-  // ⛏️ supprime le state name
-  const [name, setName] = React.useState('')
-  const handleChange = e => {
-    // 🐶 fait appel 'onNameChange' pour faire remonter le state
-    setName(e.target.value)
-  }
+function NameInput({name,onNameChange}) {
   return (
     <span>
       <label>Name : </label>
-      <input type="text" value={name} onChange={handleChange} />
+      <input type="text" value={name} onChange={(e) => onNameChange(e.target.value)} />
     </span>
   )
 }
 
-// 🐶 Répète les mêmes étapes que pour 'NameInput'
-function FirstNameInput() {
-  const [firstName, setFirstName] = React.useState('')
-  const handleChange = e => {
-    setFirstName(e.target.value)
-  }
+function FirstNameInput({firstName,onNameChange}) {
   return (
     <span>
       <label>FirstName : </label>
-      <input type="text" value={firstName} onChange={handleChange} />
+      <input type="text" value={firstName} onChange={(e) => onNameChange(e.target.value)} />
     </span>
   )
 }
 function App() {
-  // 🐶 Créé deux states 'name' et 'firstName'
-  // 🤖 const [name, setName] = React.useState('')
 
-  // 🐶 Créé deux fonctions 'handleChangeName' et 'handleChangeFirstName'
-  // qui prenent un nom en paramètre et met à jour le state
-  // 🤖 const handleNameChange = name => { setName(name) }
+  const [name, setName] = React.useState('')
+  const [firstName, setFirstName] = React.useState('')
 
   return (
     <div>
-      {/* 🐶 Passe les bons props (fonctions et données)  */}
-      <NameInput />
-      <FirstNameInput />
-      <div>Bonjour </div>
+      <NameInput onNameChange={setName} name={name} />
+      <FirstNameInput onNameChange={setFirstName} firstName={firstName} />
+      <div>Bonjour: {firstName} {name} </div>
     </div>
   )
 }

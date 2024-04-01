@@ -12,16 +12,16 @@ function withSubscription(WrappedComponent, selectData) {
   return function (props) {
     // 🐶 Implemente ici l'appel à la souscription d'API
     // 🤖  apiSubscribe()
-
+    apiSubscribe()
     // 🐶 Implemente ici l'appel qui permettra de charger les données et les sotcker dans `data`
     // utilise la 'dataSource' 'fetchAPIMock' et 'selectData'
-
+    const data = selectData(fetchAPIMock)
     // 🐶 Implemente ici l'appel à la désouscription  d'API
     // 🤖  apiUnSubscribe()
-
+    apiUnSubscribe()
     // 🐶 Passe les data en prop de WrappedComponent
     // N'oublie pas de transmettre tous les autres props : {...props}
-    return <WrappedComponent />
+    return <WrappedComponent data={data} {...props} />
   }
 }
 
@@ -36,28 +36,22 @@ const NotesWithSubscription = withSubscription(
   DataSource => DataSource().notes,
 )
 
-function TodoList() {
+function TodoList({data}) {
   //⚠️ Dans la réalité il faudrait utiliser un state et useEffect. Ici fetchAPIMock() est synchrone
   // pour simplifier la démonstration
-  apiSubscribe()
-  const todos = fetchAPIMock().todos
-  apiUnSubscribe()
   return (
     <div>
-      {todos.map(todo => (
+      {data.map(todo => (
         <div key={todo.id}>{todo.name}</div>
       ))}
     </div>
   )
 }
 
-function NotesList() {
-  apiSubscribe()
-  const notes = fetchAPIMock().notes
-  apiUnSubscribe()
+function NotesList({data}) {
   return (
     <div>
-      {notes.map(todo => (
+      {data.map(todo => (
         <div key={todo.id}>{todo.name}</div>
       ))}
     </div>
@@ -67,8 +61,8 @@ function NotesList() {
 function App() {
   return (
     <>
-      <TodoList />
-      <NotesList />
+      <TodoListWithSubscription/>
+      <NotesWithSubscription/>
     </>
   )
 }

@@ -3,23 +3,31 @@
 /* eslint-disable no-unused-vars */
 import * as React from 'react'
 
-// 🐶 Fais évoluer le Header en ajoutant en deux composants enfants <Login /> <MenuBarInfo />
-// Login retourne <div>Connexion au site : {siteName} </div>
-// MenuBarInfo : <div>Vous avez {nbMessages} messages</div>
-
 // 🐶 Tu vas devoir faire transiter les props depuis App -> Header -> Login/MenuBarInfo
 
-function Header({siteName}) {
-  return <h1>Bienvenue sur {siteName} </h1>
+function Header({siteName,nbMessages}) {
+  return (
+    <>
+      <h1>Bienvenue sur {siteName} </h1>
+      <Login siteName={siteName} />
+      <MenuBarInfo nbMessages={nbMessages} />
+    </>
+  )
+}
+function Login({siteName}) {
+  return <div>Connexion au site : {siteName} </div>
+}
+function MenuBarInfo({nbMessages}) {
+  return <div>Vous avez {nbMessages} messages</div>
 }
 function Content({siteName}) {
-  return <div>Article du site {siteName} </div>
+  return <div>Article du site: {siteName} </div>
 }
-function Footer({siteName}) {
+function Footer({siteName,email}) {
   return (
     <>
       <CGV siteName={siteName} />
-      <About siteName={siteName} />
+      <About siteName={siteName} email={email} />
     </>
   )
 }
@@ -27,13 +35,11 @@ function CGV({siteName}) {
   return <div>CGV du site : {siteName} </div>
 }
 
-function About({siteName}) {
-  // 🐶 Tu vas devoir faire évoluer <About> pour qu'il utilise l'email de App
-  // 🤖 <div>Contactez nous : {email}</div>
+function About({siteName,email}) {
   return (
     <>
       <div>A propos du site : {siteName} </div>
-      <div>Contactez nous : contact@mikecodeur.com</div>
+      <div>Contactez nous : {email}</div>
     </>
   )
 }
@@ -44,9 +50,9 @@ function App() {
   const nbMessages = 18
   return (
     <>
-      <Header siteName={siteName} />
+      <Header siteName={siteName} nbMessages={nbMessages} />
       <Content siteName={siteName} />
-      <Footer siteName={siteName} />
+      <Footer siteName={siteName} email={email} />
     </>
   )
 }
